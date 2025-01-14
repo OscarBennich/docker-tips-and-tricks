@@ -6,3 +6,34 @@ The way we "normally" debug .NET applications is using either a locally running 
 There is however an issue if this locally running Docker container needs to access other processes running as containers as part of a Docker compsoe stack. In this case the Docker container you are debugging won't be able to reach the other containers in the same way it would if it was part of the same stack. But there is a solution to this!
 
 What this means is that after setting up the original Docker compose stack stack you can seamlessly switch out one or more containers to instead run using a local Dockerfile and debug them through Visual Studio. While debugging, the container has access to all other containers in the stack as expected. After you are done debugging you can switch back to having it running in the background (manually starting and stopping the container in Docker Desktop for now).
+
+To get this to work you need to:
+- Add a docker-compose file to your project.
+  - You need to add the "build" part of the configuration and point to the local Dockerfile because we don't want to build the container using the Azure Registry image 
+  - In the `docker-compose.yml` file in the application you want to debug, make sure it can reach the docker compose network by adding a "networks" element and mapping the container specification to this. The name of the network we map to will match the name of the compose stack. See ["Use a pre-existing network"](https://docs.docker.com/compose/how-tos/networking/#use-a-pre-existing-network).
+  - I chose to give the container a different name too, to make it clear what is being run. E.g. "my_cool_app.local.debug"
+
+```yml
+services:
+  my_cool_app:
+    container_name: my_cool_app.local.debug
+    build:
+      context: .
+      dockerfile: MyCoolApp/Dockerfile
+    ports:
+      - "000001:8080"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+    extra_hosts:
+      # Mapping the localhost for the container to the host machine
+      - "localhost:host-gateway"
+    networks:
+      - my-cool-docker-compose-stack_default
+
+# For the Docker containers to run as expected when debugging them locally we need to make sure that the "docker-compose-stack" network is reachable by the containers.
+# This network is created by the "my-cool-docker-compose-stack" docker-compose stack (or whatever you choose to call it) and all other containers run on this network.
+networks:
+  my-cool-docker-compose-stack_default:
+    external: true
+
+```
