@@ -38,3 +38,35 @@ networks:
     external: true
 
 ```
+- Add a `.dcproj` file to your .NET solution and point to the docker-compose file you created. Add this project to your .NET solution.
+
+```yml
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" Sdk="Microsoft.Docker.Sdk">
+  <PropertyGroup Label="Globals">
+    <ProjectVersion>2.1</ProjectVersion>
+    <DockerTargetOS>Linux</DockerTargetOS>
+    <ProjectGuid>4a7a1559-96ca-439e-af78-36321a4ed8dd</ProjectGuid>
+    <DockerComposeProjectName>my_cool_app.local.debug</DockerComposeProjectName>
+    <DockerLaunchAction>LaunchBrowser</DockerLaunchAction>
+    <DockerServiceUrl>{Scheme}://localhost:{ServicePort}/swagger</DockerServiceUrl>
+    <!-- Specify which service/container to use when launching browser -->
+    <DockerServiceName>my_cool_app</DockerServiceName>
+  </PropertyGroup>
+  <ItemGroup>
+    <None Include="docker-compose.yml" />
+    <None Include=".dockerignore" />
+  </ItemGroup>
+</Project>
+```
+
+- Add a <DockerComposeProjectPath> to your `.csproj` file
+
+```xml
+    <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+    <DockerComposeProjectPath>..\docker-compose.dcproj</DockerComposeProjectPath>
+```
+
+- Set the docker-compose project as a Startup project:
+
+![image](https://github.com/user-attachments/assets/ac08dd86-d4f3-405d-ab37-a463a4e54ced)
