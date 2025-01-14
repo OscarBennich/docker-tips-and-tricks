@@ -26,6 +26,7 @@ services:
       - ASPNETCORE_ENVIRONMENT=Development
     extra_hosts:
       # Mapping the localhost for the container to the host machine
+      # (this is optional and should only be done if necessary)
       - "localhost:host-gateway"
     networks:
       - my-cool-docker-compose-stack_default
