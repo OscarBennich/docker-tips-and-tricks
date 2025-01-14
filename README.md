@@ -1,2 +1,2 @@
-# docker-tips-and-tricks
+# Docker tips & tricks
 Docker tips &amp; tricks
