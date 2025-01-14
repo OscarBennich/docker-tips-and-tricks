@@ -5,8 +5,6 @@ The way we "normally" debug .NET applications is using either a locally running 
 
 There is however an issue if this locally running Docker container needs to access other processes running as containers as part of a Docker compose stack. In this case the Docker container you are debugging won't be able to reach the other containers in the same way it would if it was part of the same stack. But there is a solution to this!
 
-What this means is that after setting up the original Docker compose stack stack you can seamlessly switch out one or more containers to instead run using a local Dockerfile and debug them through Visual Studio. While debugging, the container has access to all other containers in the stack as expected. After you are done debugging you can switch back to having it running in the background (manually starting and stopping the container in Docker Desktop for now).
-
 To get this to work you need to:
 - Add a docker-compose file to your project.
   - You need to add the "build" part of the configuration and point to the local Dockerfile because we don't want to build the container using the Azure Registry image 
@@ -74,3 +72,5 @@ networks:
 - Set the docker-compose project as a Startup project:
 
 ![image](https://github.com/user-attachments/assets/ac08dd86-d4f3-405d-ab37-a463a4e54ced)
+
+What this means is that after setting up the original Docker compose stack stack you can seamlessly switch out one or more containers to instead run using a local Dockerfile and debug them through Visual Studio. While debugging, the container has access to all other containers in the stack as expected. After you are done debugging you can switch back to having it running in the background (manually starting and stopping the container in Docker Desktop).
