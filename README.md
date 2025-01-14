@@ -10,8 +10,12 @@ What this means is that after setting up the original Docker compose stack stack
 To get this to work you need to:
 - Add a docker-compose file to your project.
   - You need to add the "build" part of the configuration and point to the local Dockerfile because we don't want to build the container using the Azure Registry image 
-  - In the `docker-compose.yml` file in the application you want to debug, make sure it can reach the docker compose network by adding a "networks" element and mapping the container specification to this. The name of the network we map to will match the name of the compose stack. See ["Use a pre-existing network"](https://docs.docker.com/compose/how-tos/networking/#use-a-pre-existing-network).
-  - I chose to give the container a different name too, to make it clear what is being run. E.g. "my_cool_app.local.debug"
+  - In the `docker-compose.yml` file in the application you want to debug, make sure it can reach the docker compose network by adding a "networks" element and mapping the container specification to this. 
+
+    The name of the network we map to will match the name of the compose stack. So in this case we have a pre-existing docker compose network called "my-cool-docker-compose-stack". 
+    
+    See ["Use a pre-existing network"](https://docs.docker.com/compose/how-tos/networking/#use-a-pre-existing-network).
+  - I also chose to give the container a different name too, to make it clear what is being run. E.g. "my_cool_app.local.debug"
 
 ```yml
 services:
