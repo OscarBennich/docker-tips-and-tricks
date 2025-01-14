@@ -60,7 +60,7 @@ networks:
 </Project>
 ```
 
-- Add a <DockerComposeProjectPath> to your `.csproj` file
+- Add a `<DockerComposeProjectPath>` to your `.csproj` file
 
 ```xml
     <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
