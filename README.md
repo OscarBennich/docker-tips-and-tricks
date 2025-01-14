@@ -7,7 +7,7 @@ There is however an issue if this locally running Docker container needs to acce
 
 To get this to work you need to:
 - Add a docker-compose file to your project.
-  - You need to add the "build" part of the configuration and point to the local Dockerfile because we don't want to build the container using a remote image from something like Azure Container Registry (ACR). 
+  - You need to add the "build" part of the configuration and point to the local Dockerfile because we don't want to build the container using a remote image from something like Docker Hub or Azure Container Registry (ACR). 
   - In the `docker-compose.yml` file in the application you want to debug, make sure it can reach the docker compose network by adding a "networks" element and mapping the container specification to this. 
 
     The name of the network we map to will match the name of the compose stack. So in this case we have a pre-existing docker compose network called "my-cool-docker-compose-stack". 
